@@ -40,9 +40,9 @@ useEffect(() => {
       if(amount <= 0 || amount.length <= 0){
         setLoading(false);
         ErrorToast();
+        return
       }
-      const inputAmount = amount * 1000000000000000000;
-      setLoading(true);
+      const inputAmount = amount * Math.pow(1,18);  
       const dai = await Fetcher.fetchTokenData(chainId, tokenAdress);
           const weth = WETH[chainId];
           const pair = await Fetcher.fetchPairData(dai, weth);
@@ -57,7 +57,7 @@ useEffect(() => {
           const path = [weth.address, dai.address];
       if (inputAmount < Number(wethBal.wethBal)) {
         try {
-         
+          setLoading(true);
           await window.ethereum.enable();
           const provider = ethers.getDefaultProvider('rinkeby');
           const signer =  (new ethers.providers.Web3Provider(window.ethereum)).getSigner();

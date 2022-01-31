@@ -10,8 +10,34 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function AccountCard ({walletAd,wethBal, daiBal }){
-  const Bal = Number(wethBal)/1000000000000000000
+  const Bal = Number(wethBal)/1000000000000000000;
+  const SuccessToast = () => toast.success('🦄 Connection successful', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    });
+    const WarningToast = ()=>toast.warn('😟Having trouble loading Balances!!!...please refresh...', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+    if(wethBal == null){
+      WarningToast();
+    } else{
+      SuccessToast();
+    }
     return (
         <div className='accountCard'>
             <Box sx={{ display: 'flex',
@@ -50,10 +76,13 @@ function AccountCard ({walletAd,wethBal, daiBal }){
         </ListItemAvatar>
         <ListItemText disableTypography
         primary={<Typography variant='h6' color='grey.500'>{wethBal != null && (
+          <>
+          <ToastContainer/>
           <span>
             {Bal.toPrecision(9)}
             ETH
           </span>
+          </>
         )}</Typography>}/>
       </ListItem>
       <Divider variant="inset" component="li" />
@@ -64,7 +93,7 @@ function AccountCard ({walletAd,wethBal, daiBal }){
           </Avatar>
         </ListItemAvatar>
         <ListItemText disableTypography
-        primary={<Typography variant='h6' color='grey.500'>{wethBal != null && (
+        primary={<Typography variant='h6' color='grey.500'>{daiBal != null && (
           <span>
             {daiBal.toPrecision(9)}
             DAI
