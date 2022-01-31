@@ -50,6 +50,10 @@ function App() {
     };
   }
   const tokenBalanceCheck = tokenBalance({tokenAddress: '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa'})
+  const defaultWalletChecks = [
+    { checkName: 'connect' },
+    { checkName: 'network' },
+    { checkName: 'balance', minimumBalance: '10000' }]
   useEffect(() => {
     const onboard = Onboard({
       dappId:'2e526c00-09ef-4895-a704-7b2203cd0cd7',
@@ -63,15 +67,20 @@ function App() {
          balance: setBalance,
          
       },
-      walletCheck:[tokenBalanceCheck]
+      walletCheck:[...defaultWalletChecks,tokenBalanceCheck]
     })
   setOnboard(onboard);
   }, []);
   
   async function login (){
+    try {
     await onboard.walletSelect();
     await onboard.walletCheck();
     setisWalletConnected(true);
+    } catch (error) {
+      return await onboard.walletSelect();
+    }
+    
   }
   return (
     <div className="App">
