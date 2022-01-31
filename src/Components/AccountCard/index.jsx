@@ -79,7 +79,7 @@ function AccountCard ({walletAd,wethBal, daiBal }){
           <>
           <ToastContainer/>
           <span>
-            {Bal.toPrecision(9)}
+            {Number(Bal).toPrecision(9)}
             ETH
           </span>
           </>
@@ -95,7 +95,7 @@ function AccountCard ({walletAd,wethBal, daiBal }){
         <ListItemText disableTypography
         primary={<Typography variant='h6' color='grey.500'>{daiBal != null && (
           <span>
-            {daiBal.toPrecision(9)}
+            {Number(daiBal).toPrecision(9)}
             DAI
           </span>
         )}</Typography>}/>
